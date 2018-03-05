@@ -135,7 +135,7 @@ CrystalReport1.rpt{A5931DB3-E84B-4B03-BAAF-0183324FFB68}
             }
             stream.Close();
 
-            var encoding = new UTF8Encoding(Options.OptionBOM, false);
+            var encoding = new UTF8Encoding(true, false);// Options.OptionBOM, false);
             switch (Options.OptionCRLF)
             {
                 case OptionPageGrid.EnumCRLF.CRLF:
@@ -205,16 +205,16 @@ CrystalReport1.rpt{A5931DB3-E84B-4B03-BAAF-0183324FFB68}
                 set { optionCrLf = value; }
             }
 
-            private bool optionBOM = false;
-
-            [Category("TextToolsEx")]
-            [DisplayName("add BOM")]
-            [Description("Whether add BOM to file")]
-            public bool OptionBOM
-            {
-                get { return optionBOM; }
-                set { optionBOM = value; }
-            }
+//             private bool optionBOM = false;
+//
+//             [Category("TextToolsEx")]
+//             [DisplayName("add BOM")]
+//             [Description("Whether add BOM to file")]
+//             public bool OptionBOM
+//             {
+//                 get { return optionBOM; }
+//                 set { optionBOM = value; }
+//             }
 
             private string m_utf8FileExt = ".c;.h;.cpp;.txt;.js;.cshtml;";
             public string[] m_utf8Ext;
