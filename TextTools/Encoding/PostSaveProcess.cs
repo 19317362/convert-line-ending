@@ -216,11 +216,11 @@ CrystalReport1.rpt{A5931DB3-E84B-4B03-BAAF-0183324FFB68}
                 set { optionBOM = value; }
             }
 
-            private string m_utf8FileExt;
+            private string m_utf8FileExt = ".c;.h;.cpp;.txt;.js;.cshtml;";
             public string[] m_utf8Ext;
             [Category("TextToolsEx")]
             [DisplayName("Utf8 File Types")]
-            [Description("*.c;*.h;*.cpp;")]
+            [Description(".c;.h;.cpp;.txt;.js;.cshtml;")]
             public string Utf8FileExt
             {
                 get { return m_utf8FileExt; }
