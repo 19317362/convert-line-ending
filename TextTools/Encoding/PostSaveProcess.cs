@@ -1,4 +1,4 @@
-//------------------------------------------------------------------------------
+﻿//------------------------------------------------------------------------------
 // <copyright file="VSPackage1.cs" company="Company">
 //     Copyright (c) Company.  All rights reserved.
 // </copyright>
@@ -21,6 +21,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
+using System.Linq;
 
 namespace TextTools
 {
@@ -44,7 +45,7 @@ namespace TextTools
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [ProvideAutoLoad(UIContextGuids.SolutionExists)]
-    [ProvideOptionPage(typeof(OptionPageGrid), "TextTools", "PostSave", 0, 0, true)]
+    [ProvideOptionPage(typeof(OptionPageGrid), "TextToolsEx", "PostSave", 0, 0, true)]
     [Guid(PostSaveProcess.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed class PostSaveProcess : Package
@@ -91,10 +92,31 @@ namespace TextTools
 
         void OnDocumentSaved(Document doc)
         {
-            if (doc.Kind != "{8E7B96A8-E33D-11D0-A6D5-00C04FB67F6A}")
+            /*
+             * https://bytes.com/topic/visual-basic-net/answers/381526-possible-values-dte-activedocument-kind
+TextFile1.txt{8E7B96A8-E33D-11D0-A6D5-00C04FB67F6A}
+App.config{C76D83F8-A489-11D0-8195-00A0C91BBEE3}
+Bitmap1.bmp
+VBScript1.vbs{C76D83F8-A489-11D0-8195-00A0C91BBEE3}
+AssemblyInfo.vb{8E7B96A8-E33D-11D0-A6D5-00C04FB67F6A}
+Form1.vb{8E7B96A8-E33D-11D0-A6D5-00C04FB67F6A}
+WebPart1.dwp{8E7B96A8-E33D-11D0-A6D5-00C04FB67F6A}
+Form1.resx{C76D83F8-A489-11D0-8195-00A0C91BBEE3}
+XSLTFile1.xslt{C76D83F8-A489-11D0-8195-00A0C91BBEE3}
+HTMLPage1.htm{C76D83F8-A489-11D0-8195-00A0C91BBEE3}
+DataSet1.xsd{C76D83F8-A489-11D0-8195-00A0C91BBEE3}
+CrystalReport1.rpt{A5931DB3-E84B-4B03-BAAF-0183324FFB68}
+             */
+            //if (doc.Kind != "{8E7B96A8-E33D-11D0-A6D5-00C04FB67F6A}")
+            //{
+            //    return;
+            //}
+            var extName = Path.GetExtension(doc.FullName).ToLower();
+            if(!Options.m_utf8Ext.Any(L => extName.EndsWith(L)))
             {
                 return;
             }
+
             var path = doc.FullName;
             var stream = new FileStream(path, FileMode.Open);
 
@@ -174,7 +196,7 @@ namespace TextTools
             }
             private EnumCRLF optionCrLf = 0;
 
-            [Category("TextTools")]
+            [Category("TextToolsEx")]
             [DisplayName("convert to crlf")]
             [Description("0: keep line ending. |1: convert to \\r\\n.|2: convert to \\n. |3: smart line ending(less changes)")]
             public EnumCRLF OptionCRLF
@@ -185,7 +207,7 @@ namespace TextTools
 
             private bool optionBOM = false;
 
-            [Category("TextTools")]
+            [Category("TextToolsEx")]
             [DisplayName("add BOM")]
             [Description("Whether add BOM to file")]
             public bool OptionBOM
@@ -194,9 +216,20 @@ namespace TextTools
                 set { optionBOM = value; }
             }
 
+            private string m_utf8FileExt;
+            public string[] m_utf8Ext;
+            [Category("TextToolsEx")]
+            [DisplayName("Utf8 File Types")]
+            [Description("*.c;*.h;*.cpp;")]
+            public string Utf8FileExt
+            {
+                get { return m_utf8FileExt; }
+                set { m_utf8FileExt = value.ToLower(); m_utf8Ext = m_utf8FileExt.Split(new char[] { ';' },StringSplitOptions.RemoveEmptyEntries); }
+            }
+
             bool optionRemoveTrailingWhiteSpace = false;
 
-            [Category("TextTools")]
+            [Category("TextToolsEx")]
             [DisplayName("remove trailing white spaces")]
             [Description("Whether remove trailing white spaces")]
             public bool OptionRemoveTrailingWhiteSpace
