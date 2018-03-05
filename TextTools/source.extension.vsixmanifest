@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="TextToolsEx.WPS.EF882262-D505-47F3-A8FD-88AC9E206DC8" Version="1.5.0" Language="en-US" Publisher="WPS" />
+        <Identity Id="TextToolsEx.WPS.EF882262-D505-47F3-A8FD-88AC9E206DC8" Version="1.5.1" Language="en-US" Publisher="WPS" />
         <DisplayName>TextToolsEx</DisplayName>
         <Description xml:space="preserve">Convert encoding after save for specified file extensions.
 Based on TextTools on https://github.com/avplayer/convert-line-ending.
