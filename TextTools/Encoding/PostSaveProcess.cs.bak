@@ -237,16 +237,6 @@ CrystalReport1.rpt{A5931DB3-E84B-4B03-BAAF-0183324FFB68}
                 get { return optionRemoveTrailingWhiteSpace; }
                 set { optionRemoveTrailingWhiteSpace = value; }
             }
-            bool optionOutputDebugInformation = false;
-
-            [Category("TextTools")]
-            [DisplayName("output debug information")]
-            [Description("output debug information to build output pane")]
-            public bool OptionOutputDebugInformation
-            {
-                get { return optionOutputDebugInformation; }
-                set { optionOutputDebugInformation = value; }
-            }
         }
         #endregion
     }
